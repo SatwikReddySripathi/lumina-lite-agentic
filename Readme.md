@@ -240,7 +240,10 @@ Find colleagues across a 300,000-employee organization using intelligent workflo
 
 **Agent Workflow:**
 
-![Colleague Lookup Agent Workflow](diagrams/feature2_colleague_lookup.png)
+<img src="diagrams/feature2_colleague_lookup.png"
+     alt="Colleague Lookup Agent Workflow"
+     width="200" />
+
 *Multi-step reasoning: Search docs → Query HR database → Synthesize with citations*
 
 **Agent Decision Flow:**
@@ -274,7 +277,10 @@ Get comprehensive answers to Azure Kubernetes Service questions by searching mul
 
 **Agent Workflow:**
 
-![AKS Network Hybrid RAG Workflow](diagrams/feature3_aks_network.png)
+<img src="diagrams/feature3_aks_network.png"
+     alt="AKS Network Hybrid RAG Workflow"
+     width="200" />
+
 *Hybrid search: CVS internal KB + Azure docs + IT form suggestions with clear source separation*
 
 **Unique Dual-Source Output:**
@@ -373,7 +379,9 @@ Monitor policy changes across an enterprise, detect semantic drift between versi
 
 **Agent Workflow:**
 
-![Policy Change Detector Workflow](diagrams/feature5_policy_change.png)
+<img src="diagrams/feature5_policy_change.png"
+     alt="Policy Change Detector Workflow"
+     width="400" />
 *Compare versions → Detect semantic drift → Identify affected teams → Route notifications*
 
 **Agent Decision Flow:**
@@ -428,7 +436,9 @@ Track every query's cost, measure performance, project economics at scale, and i
 
 **Agent Workflow:**
 
-![Cost Analytics Workflow](diagrams/feature6_cost_analytics.png)
+<img src="diagrams/feature6_cost_analytics.png"
+     alt="Cost Analytics Workflow"
+     width="400" />
 *Real-time tracking → Database logging → Analytics → Scale projections → Optimization recommendations*
 
 **Dashboard Features:**
