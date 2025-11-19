@@ -69,6 +69,11 @@ Unlike typical RAG demos, this project demonstrates **true agentic behavior**:
 
 ## Working Video
 Here is the complete recorded video on how it would look like after the execution is done
+
+[▶️ Watch video](videos/Lumina Lite Agentic - Working Video.mp4)
+
+
+
 ![Watch The Video](videos/Lumina Lite Agentic - Working Video.mp4)
 ---
 
