@@ -17,8 +17,8 @@
 ## Table of Contents
 
 - [About The Project](#about-the-project)
-- [Key Features](#key-features)
 - [Architecture](#architecture)
+- [Key Features](#key-features)
 - [Technology Stack](#technology-stack)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -66,6 +66,138 @@ Unlike typical RAG demos, this project demonstrates **true agentic behavior**:
 
 ---
 
+## Architecture
+
+### System Architecture Overview
+
+![Complete System Architecture](diagrams/main_architecture.png)
+*Six specialized agents orchestrated by LangGraph, accessing multiple data sources and LLM capabilities*
+
+### Architectural Layers
+
+#### Layer 1: User Interface
+- **Streamlit Chat Interface:** Multi-threaded conversations with feature selection
+- **Thread Management:** Separate conversation contexts per feature
+- **Real-Time Feedback:** Cost, latency, tool usage displayed per query
+
+#### Layer 2: Agent Orchestration (LangGraph)
+
+**6 Specialized Agents:**
+
+| Agent | Purpose | Tools Used | Complexity |
+|-------|---------|------------|------------|
+| Image Analysis | Diagram understanding | GPT-4 Vision | Low (1-2 tools) |
+| Colleague Lookup | People search | Vector search, CSV query | Medium (2-3 tools) |
+| AKS Network | Technical Q&A | Internal RAG, web search, form lookup | High (3+ tools) |
+| Video Search | Training content | Transcript search, timestamp extraction | Medium (1-2 tools) |
+| Policy Change | Compliance tracking | Document diff, semantic drift, routing | High (3-4 tools) |
+| Cost Analytics | Economic analysis | Query aggregation, projections | Low (1 tool) |
+
+**LangGraph State Machines:**
+- Maintain conversation state
+- Route to appropriate tools
+- Handle tool failures gracefully
+- Synthesize multi-source results
+
+#### Layer 3: Tool Layer
+
+**Vision Tools:**
+- `analyze_architecture_diagram()` - GPT-4 Vision analysis
+- `compare_architecture_patterns()` - Pattern recognition
+- `extract_diagram_text()` - OCR and label extraction
+
+**Search Tools:**
+- `search_team_documents()` - Vector similarity search
+- `search_for_people()` - People-specific search
+- `search_internal_aks_kb()` - Technical documentation search
+- `search_web_for_aks_info()` - External documentation (simulated)
+
+**Data Tools:**
+- `query_employee_database()` - CSV/SQL queries with filters
+- `get_employee_by_name()` - Individual lookups
+- `get_team_members()` - Department/manager queries
+- `suggest_it_forms()` - Form recommendation engine
+
+**Video Tools:**
+- `search_video_transcripts()` - Semantic search with timestamps
+- `get_video_summary()` - Video metadata retrieval
+- `search_by_speaker()` - Speaker-based filtering
+
+**Policy Tools:**
+- `compare_policy_versions()` - Text diff analysis
+- `detect_semantic_drift()` - Embedding similarity
+- `route_notifications()` - Graph-based routing
+- `summarize_policy_changes()` - Change summarization
+
+#### Layer 4: Data Layer
+
+**Vector Databases (ChromaDB):**
+- Team documentation vectors (15 chunks)
+- AKS knowledge base vectors (40 chunks)
+- Video transcript vectors (35 segments)
+- Separate persistent directories for isolation
+
+**Structured Data:**
+- SQLite: Query logs (queries table with 12 columns)
+- CSV: Employee database (10 sample records)
+- JSON: IT forms (12 forms), notification rules, video metadata
+
+**File Storage:**
+- Documents: Markdown team docs, AKS guides
+- Videos: JSON transcripts with timestamps
+- Policies: Versioned markdown documents
+- Uploads: User-submitted files (images, presentations)
+
+#### Layer 5: LLM Layer
+
+**OpenAI Models:**
+
+| Model | Use Case | Input Cost | Output Cost | When Used |
+|-------|----------|------------|-------------|-----------|
+| GPT-4o | Reasoning, synthesis | $2.50/1M | $10.00/1M | All agents (default) |
+| GPT-4 Vision | Image analysis | $2.50/1M | $10.00/1M | Image agent only |
+| text-embedding-3-small | Vector generation | $0.02/1M | - | All RAG features |
+
+**Future optimization:** Route 70% of queries to GPT-4o-mini ($0.15/$0.60 per 1M tokens) for 47% cost savings.
+
+#### Layer 6: Observability Layer
+
+**Cost Tracking:**
+- Captures: prompt_tokens, completion_tokens, total_tokens
+- Calculates: cost_usd per query using model pricing
+- Aggregates: by feature, by model, by time period
+
+**Performance Monitoring:**
+- Latency measurement (milliseconds)
+- Success rate tracking
+- Tool call counting
+- Token usage analytics
+
+**Query Logging Schema:**
+```sql
+CREATE TABLE queries (
+    id INTEGER PRIMARY KEY,
+    timestamp TEXT,
+    feature TEXT,
+    model TEXT,
+    prompt_tokens INTEGER,
+    completion_tokens INTEGER,
+    total_tokens INTEGER,
+    cost_usd REAL,
+    latency_ms INTEGER,
+    success BOOLEAN,
+    error_message TEXT,
+    metadata JSON
+)
+```
+
+---
+
+
+
+
+
+
 ## Key Features
 
 ### Feature 1: Image Analysis Agent
@@ -108,7 +240,7 @@ Find colleagues across a 300,000-employee organization using intelligent workflo
 
 **Agent Workflow:**
 
-![Colleague Lookup Agent Workflow](diagrams/feature2_colleague_lookup.png, width="300" height="150">)
+![Colleague Lookup Agent Workflow](diagrams/feature2_colleague_lookup.png>)
 *Multi-step reasoning: Search docs → Query HR database → Synthesize with citations*
 
 **Agent Decision Flow:**
@@ -336,132 +468,6 @@ Based on YOUR actual average cost per query:
 
 ---
 
-## Architecture
-
-### System Architecture Overview
-
-![Complete System Architecture](diagrams/main_architecture.png)
-*Six specialized agents orchestrated by LangGraph, accessing multiple data sources and LLM capabilities*
-
-### Architectural Layers
-
-#### Layer 1: User Interface
-- **Streamlit Chat Interface:** Multi-threaded conversations with feature selection
-- **Thread Management:** Separate conversation contexts per feature
-- **Real-Time Feedback:** Cost, latency, tool usage displayed per query
-
-#### Layer 2: Agent Orchestration (LangGraph)
-
-**6 Specialized Agents:**
-
-| Agent | Purpose | Tools Used | Complexity |
-|-------|---------|------------|------------|
-| Image Analysis | Diagram understanding | GPT-4 Vision | Low (1-2 tools) |
-| Colleague Lookup | People search | Vector search, CSV query | Medium (2-3 tools) |
-| AKS Network | Technical Q&A | Internal RAG, web search, form lookup | High (3+ tools) |
-| Video Search | Training content | Transcript search, timestamp extraction | Medium (1-2 tools) |
-| Policy Change | Compliance tracking | Document diff, semantic drift, routing | High (3-4 tools) |
-| Cost Analytics | Economic analysis | Query aggregation, projections | Low (1 tool) |
-
-**LangGraph State Machines:**
-- Maintain conversation state
-- Route to appropriate tools
-- Handle tool failures gracefully
-- Synthesize multi-source results
-
-#### Layer 3: Tool Layer
-
-**Vision Tools:**
-- `analyze_architecture_diagram()` - GPT-4 Vision analysis
-- `compare_architecture_patterns()` - Pattern recognition
-- `extract_diagram_text()` - OCR and label extraction
-
-**Search Tools:**
-- `search_team_documents()` - Vector similarity search
-- `search_for_people()` - People-specific search
-- `search_internal_aks_kb()` - Technical documentation search
-- `search_web_for_aks_info()` - External documentation (simulated)
-
-**Data Tools:**
-- `query_employee_database()` - CSV/SQL queries with filters
-- `get_employee_by_name()` - Individual lookups
-- `get_team_members()` - Department/manager queries
-- `suggest_it_forms()` - Form recommendation engine
-
-**Video Tools:**
-- `search_video_transcripts()` - Semantic search with timestamps
-- `get_video_summary()` - Video metadata retrieval
-- `search_by_speaker()` - Speaker-based filtering
-
-**Policy Tools:**
-- `compare_policy_versions()` - Text diff analysis
-- `detect_semantic_drift()` - Embedding similarity
-- `route_notifications()` - Graph-based routing
-- `summarize_policy_changes()` - Change summarization
-
-#### Layer 4: Data Layer
-
-**Vector Databases (ChromaDB):**
-- Team documentation vectors (15 chunks)
-- AKS knowledge base vectors (40 chunks)
-- Video transcript vectors (35 segments)
-- Separate persistent directories for isolation
-
-**Structured Data:**
-- SQLite: Query logs (queries table with 12 columns)
-- CSV: Employee database (10 sample records)
-- JSON: IT forms (12 forms), notification rules, video metadata
-
-**File Storage:**
-- Documents: Markdown team docs, AKS guides
-- Videos: JSON transcripts with timestamps
-- Policies: Versioned markdown documents
-- Uploads: User-submitted files (images, presentations)
-
-#### Layer 5: LLM Layer
-
-**OpenAI Models:**
-
-| Model | Use Case | Input Cost | Output Cost | When Used |
-|-------|----------|------------|-------------|-----------|
-| GPT-4o | Reasoning, synthesis | $2.50/1M | $10.00/1M | All agents (default) |
-| GPT-4 Vision | Image analysis | $2.50/1M | $10.00/1M | Image agent only |
-| text-embedding-3-small | Vector generation | $0.02/1M | - | All RAG features |
-
-**Future optimization:** Route 70% of queries to GPT-4o-mini ($0.15/$0.60 per 1M tokens) for 47% cost savings.
-
-#### Layer 6: Observability Layer
-
-**Cost Tracking:**
-- Captures: prompt_tokens, completion_tokens, total_tokens
-- Calculates: cost_usd per query using model pricing
-- Aggregates: by feature, by model, by time period
-
-**Performance Monitoring:**
-- Latency measurement (milliseconds)
-- Success rate tracking
-- Tool call counting
-- Token usage analytics
-
-**Query Logging Schema:**
-```sql
-CREATE TABLE queries (
-    id INTEGER PRIMARY KEY,
-    timestamp TEXT,
-    feature TEXT,
-    model TEXT,
-    prompt_tokens INTEGER,
-    completion_tokens INTEGER,
-    total_tokens INTEGER,
-    cost_usd REAL,
-    latency_ms INTEGER,
-    success BOOLEAN,
-    error_message TEXT,
-    metadata JSON
-)
-```
-
----
 
 ## Technology Stack
 
