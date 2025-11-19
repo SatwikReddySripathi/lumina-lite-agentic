@@ -240,7 +240,7 @@ Find colleagues across a 300,000-employee organization using intelligent workflo
 
 **Agent Workflow:**
 
-![Colleague Lookup Agent Workflow](diagrams/feature2_colleague_lookup.png>)
+![Colleague Lookup Agent Workflow](diagrams/feature2_colleague_lookup.png)
 *Multi-step reasoning: Search docs → Query HR database → Synthesize with citations*
 
 **Agent Decision Flow:**
