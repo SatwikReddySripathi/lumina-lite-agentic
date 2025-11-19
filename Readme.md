@@ -324,7 +324,7 @@ Search thousands of hours of training videos and get step-by-step instructions w
 
 **Agent Workflow:**
 
-<img src="diagrams/feature4_video_search.png" alt="Video Search Agent Workflow" width="400" />
+<img src="diagrams/feature4_video_search.png" alt="Video Search Agent Workflow" width="200" />
 
 *Semantic search → Extract steps → Preserve timestamps → Link to playable moments*
 
