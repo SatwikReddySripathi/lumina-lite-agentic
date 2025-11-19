@@ -1002,7 +1002,7 @@ lumina-lite-agentic/
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### Completed 
 
@@ -1017,7 +1017,6 @@ lumina-lite-agentic/
 
 ### Next Steps 
 
-**Q4 2024:**
 - [ ] Deploy to Streamlit Cloud (public demo)
 - [ ] Add evaluation harness with test cases
 - [ ] Implement semantic caching
@@ -1068,26 +1067,6 @@ Contributions, issues, and feature requests are welcome!
 - Test your changes before submitting PR
 - Follow existing code style (use `black` for formatting)
 
-### Areas for Contribution
-
-**High Priority:**
-- [ ] Add more sample data (employees, documents, videos)
-- [ ] Create additional test cases
-- [ ] Improve error handling in edge cases
-- [ ] Add type hints to remaining functions
-
-**Feature Ideas:**
-- [ ] Add more agents (email search, document generation, etc.)
-- [ ] Implement caching layer (Redis)
-- [ ] Add authentication/authorization
-- [ ] Build FastAPI backend endpoints
-
-**Documentation:**
-- [ ] Add more architecture diagrams
-- [ ] Create video tutorials
-- [ ] Write blog posts explaining key concepts
-
----
 
 ## License
 
@@ -1124,7 +1103,7 @@ Data Scientist | ML Engineer | Agentic AI Specialist
 
 ### Inspiration
 
-This project was inspired by **CVS Health's Lumina Agentic v1.0** platform, announced in their job posting for the Digital Workplace AI team. The goal was to demonstrate understanding of enterprise-scale GenAI systems and agentic AI workflows.
+This project was inspired by **CVS Health's Lumina Agentic v1.0** platform, announced in their job posting for the Lumina team. The goal was to demonstrate understanding of enterprise-scale GenAI systems and agentic AI workflows.
 
 ### Technologies
 
