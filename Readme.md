@@ -17,6 +17,7 @@
 ## Table of Contents
 
 - [About The Project](#about-the-project)
+- [Working Video](#working-video)
 - [Architecture](#architecture)
 - [Key Features](#key-features)
 - [Technology Stack](#technology-stack)
@@ -64,6 +65,11 @@ Unlike typical RAG demos, this project demonstrates **true agentic behavior**:
 3. **Prove enterprise thinking** (scale projections, optimization strategies)
 4. **Create portfolio piece** for GenAI/ML engineering roles
 
+---
+
+## Working Video
+Here is the complete recorded video on how it would look like after the execution is done
+[Watch The Video](videos/Lumina Lite Agentic - Working Video.mp4)
 ---
 
 ## Architecture
