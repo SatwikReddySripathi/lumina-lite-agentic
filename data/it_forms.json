@@ -1,0 +1,124 @@
+{
+  "forms": [
+    {
+      "form_id": "AKS-DEPLOY-001",
+      "title": "New AKS Cluster Deployment Request",
+      "category": "provisioning",
+      "description": "Request new Azure Kubernetes Service cluster deployment",
+      "url": "https://servicedesk.cvs.internal/forms/aks-deploy-001",
+      "required_for": ["new cluster", "production deployment", "cluster creation"],
+      "approvers": ["Cloud Architecture Team", "Security Team"],
+      "sla": "5 business days"
+    },
+    {
+      "form_id": "NET-NSG-CHANGE",
+      "title": "Network Security Group Rule Change",
+      "category": "networking",
+      "description": "Request to add, modify, or remove NSG rules",
+      "url": "https://servicedesk.cvs.internal/forms/net-nsg-change",
+      "required_for": ["NSG rules", "firewall rules", "security group", "network access"],
+      "approvers": ["Network Team", "Security Team"],
+      "sla": "2 business days"
+    },
+    {
+      "form_id": "NET-PEER-REQ",
+      "title": "VNet Peering Request",
+      "category": "networking",
+      "description": "Request VNet-to-VNet peering for cross-cluster communication",
+      "url": "https://servicedesk.cvs.internal/forms/net-peer-req",
+      "required_for": ["VNet peering", "cross-cluster", "hub-spoke", "network connectivity"],
+      "approvers": ["Network Architecture Team"],
+      "sla": "3 business days"
+    },
+    {
+      "form_id": "SEC-PUBLIC-IP",
+      "title": "Public IP Address Assignment Request",
+      "category": "security",
+      "description": "Request assignment of public IP address (requires security review)",
+      "url": "https://servicedesk.cvs.internal/forms/sec-public-ip",
+      "required_for": ["public IP", "external access", "public endpoint", "internet facing"],
+      "approvers": ["Security Team", "Network Team", "CISO Review"],
+      "sla": "5 business days"
+    },
+    {
+      "form_id": "NET-AKS-SUPPORT",
+      "title": "AKS Network Support Request",
+      "category": "support",
+      "description": "General AKS networking issues and troubleshooting",
+      "url": "https://servicedesk.cvs.internal/forms/net-aks-support",
+      "required_for": ["troubleshooting", "network issue", "connectivity problem", "DNS", "load balancer"],
+      "approvers": ["AKS Support Team"],
+      "sla": "4 hours (P1), 1 business day (P2)"
+    },
+    {
+      "form_id": "NET-DNS-ISSUE",
+      "title": "DNS Resolution Issue Report",
+      "category": "support",
+      "description": "Report DNS resolution failures in AKS",
+      "url": "https://servicedesk.cvs.internal/forms/net-dns-issue",
+      "required_for": ["DNS failure", "name resolution", "CoreDNS", "DNS timeout"],
+      "approvers": ["Network Team"],
+      "sla": "2 hours (P1)"
+    },
+    {
+      "form_id": "NET-POLICY-REVIEW",
+      "title": "Network Policy Review Request",
+      "category": "security",
+      "description": "Review and approval for Kubernetes network policies",
+      "url": "https://servicedesk.cvs.internal/forms/net-policy-review",
+      "required_for": ["network policy", "pod isolation", "traffic control", "microsegmentation"],
+      "approvers": ["Security Team", "Network Team"],
+      "sla": "3 business days"
+    },
+    {
+      "form_id": "SEC-EXCEPTION",
+      "title": "Security Exception Request",
+      "category": "security",
+      "description": "Request exception to standard security policies",
+      "url": "https://servicedesk.cvs.internal/forms/sec-exception",
+      "required_for": ["security exception", "policy exception", "non-standard configuration"],
+      "approvers": ["Security Team", "CISO", "Risk Management"],
+      "sla": "10 business days"
+    },
+    {
+      "form_id": "NET-QUOTA-INCREASE",
+      "title": "Azure Network Quota Increase",
+      "category": "provisioning",
+      "description": "Request increase in Azure networking quotas (IPs, NSG rules, etc.)",
+      "url": "https://servicedesk.cvs.internal/forms/net-quota-increase",
+      "required_for": ["quota", "limit increase", "capacity", "SNAT ports", "IP exhaustion"],
+      "approvers": ["Cloud Operations Team"],
+      "sla": "2 business days"
+    },
+    {
+      "form_id": "SEC-INCIDENT",
+      "title": "Security Incident Report",
+      "category": "security",
+      "description": "Report suspected security incident or breach",
+      "url": "https://servicedesk.cvs.internal/forms/sec-incident",
+      "required_for": ["security incident", "breach", "unauthorized access", "suspicious activity"],
+      "approvers": ["Security Operations Center"],
+      "sla": "Immediate (24/7)"
+    },
+    {
+      "form_id": "PERF-NETWORK",
+      "title": "Network Performance Issue Report",
+      "category": "support",
+      "description": "Report network latency or throughput issues",
+      "url": "https://servicedesk.cvs.internal/forms/perf-network",
+      "required_for": ["latency", "slow network", "performance", "throughput"],
+      "approvers": ["Performance Engineering Team"],
+      "sla": "4 hours (P1)"
+    },
+    {
+      "form_id": "COMPLIANCE-VIOLATION",
+      "title": "Compliance Violation Report",
+      "category": "compliance",
+      "description": "Report configuration that violates compliance policies",
+      "url": "https://servicedesk.cvs.internal/forms/compliance-violation",
+      "required_for": ["compliance", "policy violation", "audit finding"],
+      "approvers": ["Compliance Team", "Security Team"],
+      "sla": "1 business day"
+    }
+  ]
+}

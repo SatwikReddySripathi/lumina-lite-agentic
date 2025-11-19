@@ -1,0 +1,43 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+*.env
+
+# Data & Uploads (keep structure, not content)
+uploads/*
+!uploads/.gitkeep
+chroma_db/
+chroma_db_*/
+*.db
+logs/*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Keep diagram folder but not temp files
+diagrams/*.tmp
+diagrams/*.bak

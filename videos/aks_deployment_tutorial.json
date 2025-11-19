@@ -1,0 +1,91 @@
+{
+  "video_id": "VID-001",
+  "title": "AKS Deployment with GitHub Actions - Complete Tutorial",
+  "duration": "18:45",
+  "speaker": "Alex Kim",
+  "date": "2024-10-15",
+  "thumbnail": "https://video.cvs.internal/thumbnails/vid-001.jpg",
+  "url": "https://video.cvs.internal/watch/vid-001",
+  "transcript": [
+    {
+      "timestamp": "00:00",
+      "duration": 30,
+      "text": "Welcome to this tutorial on deploying applications to Azure Kubernetes Service using GitHub Actions. I'm Alex Kim from the Cloud Infrastructure team. Today we'll cover the complete CI/CD pipeline setup from scratch."
+    },
+    {
+      "timestamp": "00:30",
+      "duration": 45,
+      "text": "First, let's talk about prerequisites. You'll need an Azure subscription with AKS cluster already provisioned, a GitHub repository for your application code, and Azure Container Registry for storing Docker images. Make sure you have contributor access to both Azure and the GitHub repo."
+    },
+    {
+      "timestamp": "01:15",
+      "duration": 60,
+      "text": "Step one: Set up Azure credentials in GitHub Secrets. Navigate to your repository settings, then Secrets and Variables, then Actions. You'll need to add three secrets: AZURE_CREDENTIALS with your service principal JSON, AZURE_SUBSCRIPTION_ID, and ACR_LOGIN_SERVER with your container registry URL. For the service principal, use the Azure CLI command: az ad sp create-for-rbac with the subscription scope."
+    },
+    {
+      "timestamp": "02:15",
+      "duration": 75,
+      "text": "Step two: Create the GitHub Actions workflow file. In your repository, create a new directory called .github/workflows. Inside that, create a file called aks-deploy.yml. This YAML file will define your entire deployment pipeline. Start with the workflow name and trigger conditions. We'll use push events to the main branch and also allow manual workflow dispatch."
+    },
+    {
+      "timestamp": "03:30",
+      "duration": 90,
+      "text": "Step three: Configure the build job. The first job in your workflow should build and push the Docker image. Use the ubuntu-latest runner. You'll need these steps: checkout the code using actions/checkout at v3, log in to Azure using the azure/login action with your credentials secret, log in to ACR using docker login with the ACR credentials, build your Docker image with a proper tag including the commit SHA for traceability, and finally push the image to ACR. Here's a pro tip: always tag your images with both latest and the git commit SHA so you can trace any deployment back to specific code."
+    },
+    {
+      "timestamp": "05:00",
+      "duration": 85,
+      "text": "Step four: Set up the deploy job. This job depends on the build job completing successfully. You'll use the same runner, but now we focus on Kubernetes deployment. First, use the azure/aks-set-context action to connect to your AKS cluster. You'll need the resource group name and cluster name. Then use the azure/k8s-set-context action to set up kubectl. Make sure you're using the correct namespace - we typically use separate namespaces for dev, staging, and production environments at CVS."
+    },
+    {
+      "timestamp": "06:25",
+      "duration": 95,
+      "text": "Step five: Deploy to AKS using kubectl. You have two main options here. Option one: use kubectl apply with your Kubernetes manifest files directly from your repo. Option two: use Helm charts for more sophisticated deployments. At CVS, we prefer Helm for production deployments because it handles versioning and rollbacks better. For kubectl apply, make sure to update your deployment YAML with the new image tag. Use kubectl set image or update the manifest file with the commit SHA tag we created earlier. Always include resource limits and requests in your deployment specs."
+    },
+    {
+      "timestamp": "08:00",
+      "duration": 70,
+      "text": "Step six: Add health checks and validation. After deployment, don't just assume it worked. Add a step to verify the deployment. Use kubectl rollout status to wait for the deployment to complete successfully. Check that all pods are running with kubectl get pods. You can also run smoke tests against your service endpoints. If any check fails, the workflow should fail and send notifications."
+    },
+    {
+      "timestamp": "09:10",
+      "duration": 80,
+      "text": "Step seven: Implement rollback strategy. This is critical for production deployments. Use kubectl rollout undo if the health checks fail. You should also integrate with monitoring systems like Azure Application Insights. Set up alerts for deployment failures. At CVS, we automatically create a ticket in ServiceNow if a production deployment fails. For blue-green deployments, you'd use a different approach with service mesh or Ingress routing."
+    },
+    {
+      "timestamp": "10:30",
+      "duration": 75,
+      "text": "Common pitfalls to avoid: First, don't hardcode credentials in your workflow file - always use GitHub Secrets. Second, don't use latest tag in production - always use specific versioned tags. Third, don't skip resource limits - your pods need CPU and memory limits. Fourth, don't deploy without testing in lower environments first. We have a staging cluster that mirrors production exactly."
+    },
+    {
+      "timestamp": "11:45",
+      "duration": 90,
+      "text": "Let's talk about security best practices. Use Azure Key Vault to store sensitive configuration instead of Kubernetes secrets. Implement pod security policies to prevent privileged containers. Use network policies to restrict traffic between pods. Enable Azure Defender for Kubernetes to detect threats. Scan your container images for vulnerabilities using tools like Trivy or Aqua Security. At CVS, every image must pass security scanning before it can be deployed to production AKS clusters."
+    },
+    {
+      "timestamp": "13:15",
+      "duration": 85,
+      "text": "For multi-environment deployments, use GitHub Environments feature. Create separate environments for dev, staging, and production. Each environment can have required reviewers and branch protection rules. Production should always require manual approval from at least two team members. You can also use different Azure credentials for each environment, following the principle of least privilege. Store environment-specific values in GitHub environment secrets."
+    },
+    {
+      "timestamp": "14:40",
+      "duration": 70,
+      "text": "Monitoring and observability are crucial. Integrate Azure Monitor with your AKS cluster. Use Azure Log Analytics to collect container logs. Set up Application Insights for application-level monitoring. Create dashboards in Azure Portal or Grafana to visualize deployment metrics. Track deployment frequency, lead time, and failure rate - these are key DevOps metrics. At CVS, we aim for at least 10 deployments per day to production with a failure rate below 5 percent."
+    },
+    {
+      "timestamp": "15:50",
+      "duration": 75,
+      "text": "Let's discuss cost optimization. Use Azure Cost Management to track spending per namespace. Implement horizontal pod autoscaling based on CPU and memory metrics. Use cluster autoscaler to scale nodes based on demand. Right-size your node pools - don't use large VMs if you don't need them. Consider using spot instances for non-critical workloads to save up to 80 percent on compute costs. We saved over 40 percent on our AKS costs by implementing these strategies."
+    },
+    {
+      "timestamp": "17:05",
+      "duration": 60,
+      "text": "Finally, here are some useful resources. Check out the Azure AKS documentation at learn.microsoft.com. The GitHub Actions marketplace has many pre-built actions for AKS deployments. Join the internal CVS Cloud Infrastructure Slack channel for questions. Our team maintains example workflows in the cvs-aks-templates repository. And remember to submit a ticket through ServiceNow if you need help with cluster provisioning or troubleshooting."
+    },
+    {
+      "timestamp": "18:05",
+      "duration": 40,
+      "text": "That wraps up this tutorial on AKS deployment with GitHub Actions. Remember to follow CVS security policies, test thoroughly in staging, and monitor your deployments. If you have questions, reach out to the Cloud Infrastructure team. Thanks for watching, and happy deploying!"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "video_id": "VID-002",
+  "title": "Kubernetes Troubleshooting - Common Issues and Solutions",
+  "duration": "22:30",
+  "speaker": "Sarah Chen",
+  "date": "2024-11-01",
+  "thumbnail": "https://video.cvs.internal/thumbnails/vid-002.jpg",
+  "url": "https://video.cvs.internal/watch/vid-002",
+  "transcript": [
+    {
+      "timestamp": "00:00",
+      "duration": 35,
+      "text": "Hi everyone, I'm Sarah Chen, Senior Data Scientist on the Lumina team. Today we're covering the most common Kubernetes and AKS issues you'll encounter and how to troubleshoot them efficiently. We'll use real examples from production incidents we've seen at CVS."
+    },
+    {
+      "timestamp": "00:35",
+      "duration": 80,
+      "text": "Issue number one: ImagePullBackOff errors. This happens when Kubernetes can't pull your container image. First, check if the image exists in your registry using az acr repository list. Second, verify your image pull secrets are configured correctly. Use kubectl get secrets and kubectl describe secret to check. Third, confirm your AKS cluster has permission to access ACR. Check the NSG rules - you need port 443 open to AzureContainerRegistry service tag. This is one of the most common issues we see."
+    },
+    {
+      "timestamp": "01:55",
+      "duration": 75,
+      "text": "Issue number two: CrashLoopBackOff. Your pod is starting but immediately crashing. Check the pod logs first with kubectl logs pod-name. If the pod keeps restarting, use kubectl logs pod-name --previous to see logs from the previous crash. Common causes include: application errors on startup, missing environment variables, incorrect command or entrypoint in your Dockerfile, or insufficient resources. Always set proper resource requests and limits."
+    },
+    {
+      "timestamp": "03:10",
+      "duration": 85,
+      "text": "Issue number three: Pods stuck in Pending state. This usually means Kubernetes can't schedule your pod. Use kubectl describe pod to see the reason. Common causes: insufficient CPU or memory on nodes, node selectors or taints preventing scheduling, or volume mount issues. Check your resource requests - if you're requesting 32 GB of RAM but your nodes only have 16 GB, the pod will never schedule. Use kubectl get nodes to check available resources and kubectl top nodes to see current usage."
+    },
+    {
+      "timestamp": "04:35",
+      "duration": 90,
+      "text": "Issue number four: Service connectivity problems. Your pods are running but can't communicate. First, verify the service exists with kubectl get svc. Check that the selector matches your pod labels - this is a common mistake. Test connectivity from within the cluster using a debug pod: kubectl run debug --image=nicolaka/netshoot -it --rm -- /bin/bash. From there, try curl to your service name. Check network policies - they might be blocking traffic. Use kubectl get networkpolicies to list them."
+    },
+    {
+      "timestamp": "06:05",
+      "duration": 80,
+      "text": "Issue number five: DNS resolution failures. Pods can't resolve service names or external domains. First, check CoreDNS pods in kube-system namespace. They should be running. Test DNS with: kubectl run -it --rm debug --image=busybox --restart=Never -- nslookup kubernetes.default. If that fails, check CoreDNS logs. Common fixes: restart CoreDNS deployment, check VNet DNS settings, or verify NSG rules allow DNS traffic on port 53."
+    },
+    {
+      "timestamp": "07:25",
+      "duration": 75,
+      "text": "Issue number six: High memory or CPU usage. Your pods or nodes are resource constrained. Use kubectl top pods and kubectl top nodes to identify the culprits. Check if you have resource limits set - without limits, a pod can consume all node resources. Look at horizontal pod autoscaling: kubectl get hpa. Consider implementing VPA for automatic resource recommendations. At CVS, we use Prometheus and Grafana for detailed resource monitoring."
+    },
+    {
+      "timestamp": "08:40",
+      "duration": 85,
+      "text": "Issue number seven: Persistent volume claim stuck in Pending. Your storage isn't attaching. Check PVC status with kubectl describe pvc. Verify your storage class exists and is configured correctly. In AKS, ensure your node pool has permission to attach disks. Check Azure subscription limits for disk attachments. For Azure Files, verify the storage account exists and the secret with credentials is correct. This often happens when you exceed the maximum number of data disks per VM."
+    },
+    {
+      "timestamp": "10:05",
+      "duration": 70,
+      "text": "Issue number eight: Ingress not routing traffic correctly. Check ingress controller pods are running. Verify your ingress resource is created: kubectl get ingress. Check the ADDRESS field - it should have an IP. If not, check ingress controller logs. Verify DNS points to that IP address. Check TLS certificate if using HTTPS - certificate errors cause connection failures. Use cert-manager for automatic certificate management."
+    },
+    {
+      "timestamp": "11:15",
+      "duration": 80,
+      "text": "Troubleshooting tools you need to know. kubectl describe is your best friend - it shows events and errors. kubectl logs shows application output and errors. kubectl exec lets you shell into containers for debugging. kubectl port-forward lets you test services locally. kubectl get events shows recent cluster events. Use kubectl api-resources to see all resource types. Install kubectx and kubens for easier context and namespace switching."
+    },
+    {
+      "timestamp": "12:35",
+      "duration": 75,
+      "text": "Advanced debugging techniques. Use ephemeral debug containers: kubectl debug pod-name -it --image=busybox. This attaches a debug container to a running pod. For node issues, use kubectl debug node/node-name to create a privileged pod with host access. Use kubectl proxy to access the Kubernetes API locally. Enable audit logging to track all API calls. This is crucial for security investigations."
+    },
+    {
+      "timestamp": "13:50",
+      "duration": 85,
+      "text": "When pods won't start, check the pod security policy or pod security standards. These can prevent pods from running if they don't meet security requirements. Check if you're trying to run as root when the policy forbids it. Verify volume mounts are allowed. Check if privileged mode is required but not permitted. Use kubectl describe psp to see the active policies. At CVS, we enforce strict pod security standards in production."
+    },
+    {
+      "timestamp": "15:15",
+      "duration": 70,
+      "text": "Networking deep dive. If pods can't reach external services, check egress rules in your NSG. Verify route tables aren't overriding default routes. Check if you're using Azure Firewall - it might be blocking outbound traffic. Use network policies to control pod-to-pod traffic. Remember that Azure CNI and kubenet have different networking models. With Azure CNI, every pod gets a real VNet IP address."
+    },
+    {
+      "timestamp": "16:25",
+      "duration": 80,
+      "text": "Performance troubleshooting. If pods are slow to start, check image pull times - large images take longer. Look at init containers - they run before your main container. Check readiness probes - pods won't receive traffic until they pass. Liveness probes can cause restart loops if configured incorrectly. Use kubectl describe pod to see probe failure events. Increase probe timeout or initial delay if needed."
+    },
+    {
+      "timestamp": "17:45",
+      "duration": 75,
+      "text": "Security troubleshooting. If you get forbidden errors, check RBAC permissions. Use kubectl auth can-i to test permissions. Check service account tokens are mounted correctly. Verify Azure AD integration if using AAD for authentication. Check pod identity for accessing Azure resources. At CVS, we use managed identities instead of service principals wherever possible for better security."
+    },
+    {
+      "timestamp": "19:00",
+      "duration": 85,
+      "text": "Storage troubleshooting tips. If volumes won't mount, check the pod is on the same node as where the volume is attached - some storage types are zone-specific. Verify file permissions on mounted volumes. Check if the persistent volume still exists. Look at storage class provisioner logs. For Azure Disk, remember it's ReadWriteOnce - only one pod can use it at a time. Use Azure Files or NFS for ReadWriteMany scenarios."
+    },
+    {
+      "timestamp": "20:25",
+      "duration": 65,
+      "text": "Creating effective support tickets. Include kubectl describe output for the affected resources. Attach logs using kubectl logs. Note the timeline of when the issue started. Include recent changes - deployments, configuration updates, etc. Provide resource YAML with kubectl get pod pod-name -o yaml. Mention which troubleshooting steps you've already tried. This helps support teams resolve issues faster."
+    },
+    {
+      "timestamp": "21:30",
+      "duration": 60,
+      "text": "Resources for continued learning. The official Kubernetes documentation is excellent. The AKS troubleshooting guide on Microsoft Learn covers many scenarios. Join the internal CVS Kubernetes Slack channel. Check out our internal wiki with runbooks for common issues. And remember, when in doubt, describe, logs, and events are your three key debugging commands. Thanks for watching!"
+    }
+  ]
+}
