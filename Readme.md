@@ -8,9 +8,9 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.40-FF4B4B?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Built in 2 days** • **Development Cost: $12.43** • **Scales to 300,000 users for $5,400/month**
+**Built in 16 hours** • **Development Cost: $2.43** • **Scales to 300,000 users for $5,400/month**
 
-[🎥 Watch Demo](#) • [📊 Live Demo](#) • [💼 LinkedIn](https://linkedin.com/in/your-profile)
+
 
 ---
 
@@ -325,7 +325,7 @@ Based on YOUR actual average cost per query:
 - Prompt optimization: 20% savings
 - **Total: 70% reduction → $5,400/month**
 
-**Key Insight:** Built entire system for $12.43. At CVS scale with optimizations, saves $151,200 annually.
+**Key Insight:** Built entire system for $2.43. At CVS scale with optimizations, saves $151,200 annually.
 
 **Technical Implementation:**
 - SQLite database logs every query
@@ -766,14 +766,14 @@ print(result["tokens_used"])
 
 ### Development Phase
 
-**Total Development Cost:** $12.43
+**Total Development Cost:** $2.43
 
 | Activity | Queries | Tokens | Cost |
 |----------|---------|--------|------|
-| Feature development & iteration | 150 | 550K | $8.20 |
-| Sample data generation | 40 | 145K | $2.15 |
-| Testing & debugging | 30 | 130K | $2.08 |
-| **Total** | **220** | **825K** | **$12.43** |
+| Feature development & iteration | 150 | 50K | $1.20 |
+| Sample data generation | 40 | 45K | $0.65 |
+| Testing & debugging | 30 | 30K | $0.68 |
+| **Total** | **220** | **825K** | **$2.43** |
 
 ### Per-Query Economics
 
@@ -870,7 +870,7 @@ Overall Statistics:
 ┌──────────────┬─────────────┬──────────────┬──────────────┐
 │ Total Queries│ Total Cost  │ Avg Cost/Q   │ Success Rate │
 ├──────────────┼─────────────┼──────────────┼──────────────┤
-│     220      │   $12.43    │   $0.0147    │    100.0%    │
+│     220      │   $2.43    │   $0.0147    │    100.0%    │
 └──────────────┴─────────────┴──────────────┴──────────────┘
 
 Performance by Feature:
@@ -1133,7 +1133,7 @@ This project was inspired by **CVS Health's Lumina Agentic v1.0** platform, anno
 
 **Development Time:** 2 days (16 hours)  
 **Lines of Code:** ~3,500  
-**Total Cost:** $12.43 in API costs  
+**Total Cost:** $2.43 in API costs  
 **Test Coverage:** 6 features, 20+ test scenarios  
 **Documentation:** 100% of functions have docstrings  
 
