@@ -1,7 +1,4 @@
-"""
-Lumina Lite Agentic - Complete Production UI
-Clean interface with architecture diagram support and performance metrics
-"""
+
 import streamlit as st
 import pandas as pd
 import os
