@@ -242,7 +242,7 @@ Find colleagues across a 300,000-employee organization using intelligent workflo
 
 <img src="diagrams/feature2_colleague_lookup.png"
      alt="Colleague Lookup Agent Workflow"
-     width="200" />
+     width="300" />
 
 *Multi-step reasoning: Search docs → Query HR database → Synthesize with citations*
 
@@ -279,7 +279,7 @@ Get comprehensive answers to Azure Kubernetes Service questions by searching mul
 
 <img src="diagrams/feature3_aks_network.png"
      alt="AKS Network Hybrid RAG Workflow"
-     width="200" />
+     width="400" />
 
 *Hybrid search: CVS internal KB + Azure docs + IT form suggestions with clear source separation*
 
